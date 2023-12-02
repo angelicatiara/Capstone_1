@@ -122,33 +122,79 @@ if st.session_state['submitted']:
         st.subheader('Purchase History Timeline')
         if not customer_data.empty:
             timeline_data = customer_data.groupby('InvoiceDate')['TotalPrice'].sum().reset_index()
-            plt.figure(figsize=(10, 4))
-            plt.style.use('dark_background')
-            sns.set_style("darkgrid")
-            sns.lineplot(x='InvoiceDate', y='TotalPrice', data=timeline_data, color='red')  # Set line color to white for visibility
-            plt.xticks(rotation=45 ,color='white')
-            plt.yticks(rotation=0,color='white')
-            plt.xlabel('Invoice Date',color='white')
-            plt.ylabel('Total Spent',color='white')
-            plt.title('Total Spending Over Time',color='white')
-            st.pyplot(plt)
+            fig = px.line(
+    timeline_data,
+    x='InvoiceDate',
+    y='TotalPrice',
+    title='Total Spending Over Time',
+    markers=True,  # Include markers for each point
+            )
+
+            # Customize the chart for a dark background with white text
+            fig.update_layout(
+                plot_bgcolor='rgba(0,0,0,0)',  # Transparent background
+                paper_bgcolor='rgba(0,0,0,0)',  # Transparent background
+                font_color='white',
+                xaxis=dict(
+                    title='Invoice Date',
+                    showgrid=True,
+                    gridcolor='grey',
+                    tickangle=45  # Rotate the x-axis labels
+                ),
+                yaxis=dict(
+                    title='Total Spent',
+                    showgrid=True,
+                    gridcolor='grey'
+                ),
+            )
+
+            # Show the figure in an interactive environment, such as Jupyter Notebook
+            # fig.show()
+
+            # To display the chart in Streamlit, use the following:
+            st.plotly_chart(fig)
         else:
             st.write("No data available for this customer.",color='white')
 
         # Spending Analysis
         st.subheader('Spending Analysis')
         if not customer_data.empty:
-            product_data = customer_data.groupby('Description')['TotalPrice'].sum().sort_values(ascending=False).head(10)
-            plt.figure(figsize=(10, 6))
-            sns.barplot(x=product_data.values, y=product_data.index, palette='viridis')
-            plt.xlabel('Total Spent',color='white')
-            plt.xticks(rotation=0 ,color='white')
-            plt.yticks(rotation=0,color='white')
-            plt.ylabel('Product',color='white')
-            plt.title('Top 10 Products by Spending',color='white')
-            st.pyplot(plt)
+            product_data = customer_data.groupby('Description')['TotalPrice'].sum().sort_values(ascending=False).head(10).reset_index()
+            fig = px.bar(
+            product_data, 
+                y='Description', 
+                x='TotalPrice', 
+                title='Top 10 Products by Spending', 
+                orientation='h',  # This makes it a horizontal bar chart
+                color='TotalPrice',  # This will use the 'TotalPrice' to color the bars
+                color_continuous_scale=px.colors.sequential.Viridis  # This sets the color scale to Viridis
+            )
+
+            # Update layout for better appearance
+            fig.update_layout(
+                plot_bgcolor='rgba(0,0,0,0)',  # Transparent background
+                paper_bgcolor='rgba(0,0,0,0)',  # Transparent background
+                font=dict(color='white'),  # White font color
+            )
+
+            # Show the figure
+            # fig.show()
+
+            # If you're using Streamlit, replace fig.show() with:
+            st.plotly_chart(fig)
         else:
             st.write("No data available for this customer.")
+
+        
+        hola = df_uk[df_uk['CustomerID'] == selected_customer_id].groupby('PriceRange').agg({'TotalCost': 'sum'}).reset_index()
+        
+# Create a bar plot using Plotly
+        fig = px.bar(hola, x='PriceRange', y='TotalCost', title='Sales by Product Price Range',
+                    labels={'TotalCost': 'Total Sales', 'PriceRange': 'Price Range (£)'})
+
+        # In a Streamlit app, you would use this to display the plot
+        st.plotly_chart(fig)
+        st.write(hola,selected_customer_id)
 
         # Run this app with 'streamlit run app.py'
     # Inside the 'Details' tab in your Streamlit app
