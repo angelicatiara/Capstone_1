@@ -3,6 +3,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
+from sklearn.cluster import KMeans
+import numpy as np
+from sklearn.preprocessing import StandardScaler
+Scaler=StandardScaler()
 
 # st.set_page_config(page_title= "Retail Platform",page_icon='logo.png')
 def get_customer_rfm(customer_id, df):
@@ -277,3 +281,34 @@ if st.session_state['submitted']:
         customer_description = f"Customer level description is : {df_rfm[df_rfm['Unnamed: 0']==selected_customer_id2]['RFM_Scores_Levels'].values[0]}"
         st.write(f"The customer can be described as: {customer_description}")
         # st.write(df_rfm)
+    with tab1:
+        k = st.slider('Select the number of clusters (k)', min_value=2, max_value=6)
+        submitted = st.button("Let's GO")
+        
+        if submitted:
+            # Prepare the data for clustering
+            dfK = df_rfm[['Recency','Frequency','Monetary']]
+            dfK = dfK[dfK['Recency']!=0]
+            dfK = dfK[dfK['Monetary']!=0]
+            df_k_log = np.log(dfK)
+            Values_scaled = Scaler.fit_transform(df_k_log)
+            X = pd.DataFrame(Values_scaled, columns=['Recency', 'Frequency', 'Monetary'])
+
+            # Perform KMeans clustering
+            kmeans = KMeans(n_clusters=k, random_state=42)
+            X['cluster_labels'] = kmeans.fit_predict(X)
+            
+            # 3D scatter plot using Plotly
+            fig = px.scatter_3d(X, 
+                                x='Recency', 
+                                y='Frequency', 
+                                z='Monetary', 
+                                color='cluster_labels', 
+                                title='3D Cluster Visualization',
+                                labels={'cluster_labels': 'Cluster'})
+            
+            # Display the cluster labels
+            st.write(X['cluster_labels'])
+
+            # Display the 3D cluster visualization
+            st.plotly_chart(fig)
