@@ -107,8 +107,72 @@ if not st.session_state['submitted']:
 
 # Define your tabs
 if st.session_state['submitted']:
-    tab1, tab2,tab3 = st.tabs(["Clusters", "RFM Details","Visualization :sunglasses:"])
+    tab1, tab2,tab3,tab4 = st.tabs(["Clusters", "RFM Details","Visualization :sunglasses:","Details:clown_face:"])
 
+    with tab4:
+        st.markdown('''
+       # RFM Customer Segmentation & Cohort Analysis Project
+
+## Introduction
+Welcome to the "RFM Customer Segmentation & Cohort Analysis Project", part of a Capstone Project Series designed to enhance skills in data analysis, customer segmentation, and clustering algorithms.
+
+This project focuses on RFM (Recency, Frequency, Monetary) Analysis and its application in customer segmentation, along with data cleaning, data visualization, exploratory data analysis, and cohort analysis. A fundamental knowledge of Python coding and clustering theory is assumed.
+
+## Project Structure
+The project is divided into the following main sections:
+
+1. **Data Cleaning & Exploratory Data Analysis**
+   - Importing libraries, loading data, and initial data review.
+   - Analyzing key variables and customer distribution by country, with a focus on the UK market.
+
+2. **RFM Analysis**
+   - Calculating RFM metrics and creating an RFM table for customer segmentation.
+
+3. **Customer Segmentation with RFM Scores**
+   - Scoring and categorizing customers based on RFM values.
+
+4. **Applying Clustering**
+   - Pre-processing data for clustering.
+   - Implementing and comparing different clustering algorithms:
+     - K-means Clustering
+     - DBSCAN (Density-Based Spatial Clustering of Applications with Noise)
+     - Gaussian Mixture Model (GMM)
+   - Visualizing and interpreting clustering results.
+
+5. **Cohort Analysis**
+   - Creating cohorts to analyze customer behavior over time.
+   - Tracking key metrics and visualizing results.
+
+## Project Goals
+The project aims to provide hands-on experience with:
+
+- RFM Analysis for customer segmentation.
+- Data cleaning, visualization, and exploratory analysis.
+- Advanced customer segmentation using clustering algorithms.
+- Cohort analysis for behavioral tracking.
+
+## Dataset
+The Online Retail dataset from the UCI Machine Learning Repository is used, containing transactions for a UK-based online retail between 01/12/2010 and 09/12/2011.
+
+## Tools and Technologies
+- Python
+- Pandas, Matplotlib, Seaborn
+- Scikit-learn for K-means, DBSCAN, and GMM
+
+## How to Use
+1. Clone the repository.
+2. Install required libraries.
+3. Run the Jupyter notebooks sequentially.
+
+## Conclusion
+This project provides practical experience in customer segmentation using RFM analysis, various clustering algorithms, and cohort analysis, aiding the understanding of customer behavior and data science applications in marketing.
+
+---
+
+**Author: Eng.MAJED**
+
+**ENGINEER**
+''')
     with tab3:
                 
         # Streamlit app layout
@@ -282,6 +346,30 @@ if st.session_state['submitted']:
         st.write(f"The customer can be described as: {customer_description}")
         # st.write(df_rfm)
     with tab1:
+        description = """
+### K-Means Clustering for Customer Segmentation
+
+This part of the application implements K-means clustering to segment customers based on RFM (Recency, Frequency, Monetary) analysis.
+
+#### How It Works:
+1. **Select Number of Clusters:** Use the slider to choose the number of clusters (k) for the K-means algorithm.
+2. **Initiate Clustering:** Click 'Let's GO' to start the clustering process.
+
+#### Behind the Scenes:
+- The data is prepared by filtering, applying a logarithmic transformation for normalization, and scaling.
+- The KMeans algorithm is applied to this preprocessed data.
+- The results are visualized using a 3D scatter plot with Plotly, showing the clusters in terms of 'Recency', 'Frequency', and 'Monetary' values.
+
+#### Usage:
+This tool is essential for understanding customer behavior and grouping them into segments. It's particularly useful for marketers and data analysts for strategic planning and targeted marketing.
+
+---
+
+Simply adjust the slider and click the button to view different clustering scenarios and gain insights into customer purchasing behaviors.
+"""
+
+        st.markdown(description)
+
         k = st.slider('Select the number of clusters (k)', min_value=2, max_value=6)
         submitted = st.button("Let's GO")
         
