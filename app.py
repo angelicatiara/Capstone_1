@@ -41,29 +41,21 @@ st.markdown("""
 
             h1 {
                 text-align: center;
-                color: #FF3131;
+                color: #269BBB;
             }
             h2{
                 text-align: center;
+               color: #126C85;
             }
-            .sidebar .sidebar-content {
-                background-color: #F2F2F2;
+         
+                  }
+            h3{
+                text-align: center;
+               color: #126C85;
             }
-            
-            .sidebar .sidebar-button{
-                 color: #ffffff;
-                background-color: #FF3131;
-                border: none;
-                border-radius: 4px;
-                padding: 0.75rem 1.5rem;
-                margin: 0.75rem 0;
-                position: absolute;
-                left: 10% ;
-            }
-            
             .stButton>button {
                 color: #ffffff;
-                background-color: #FF3131;
+                background-color: #126C85;
                 border: none;
                 border-radius: 4px;
                 padding: 0.75rem 1.5rem;
@@ -73,12 +65,18 @@ st.markdown("""
 
             }
             .stButton>button:hover {
-                background-color:  #FF4B4B;
+                background-color:  #269BBB;
                 text-align: center;
                 color: #FFFFFF;
             }
            
-            
+            .stTab{
+               background-color:  #269BBB;
+            }
+            .stTabs [data-baseweb="tab-list"] {
+		gap: 30px;
+    }
+    
           
             body {
             background-color: #F2F2F22;}
@@ -93,12 +91,12 @@ if 'submitted' not in st.session_state:
 if not st.session_state['submitted']:
     
         # st.write("Welcome to Eng.Majed AutoMobile Shop! Please submit to continue.")
-        col1,col2,col3 = st.columns([0.2,0.4,0.2])
-        col2.image("logo.png",width=300,)
+        col1,col2,col3 = st.columns([0.5,0.4,0.2])
+        col2.image("photo_2023-12-04_07-46-51-removebg-preview.png",width=100,)
         st.markdown("----", unsafe_allow_html=True)
-        st.subheader("Welcome to..")
+        
         st.title('Retaill store Platform')
-        st.subheader("The PERFECT place to find goods prices with the touch of machine learning")
+        st.subheader("The PERFECT place to derive insights from your data with the magical touch of machine learning")
         st.markdown("----", unsafe_allow_html=True)
         submitted = st.button("Let's GO")
         if submitted:
@@ -107,7 +105,7 @@ if not st.session_state['submitted']:
 
 # Define your tabs
 if st.session_state['submitted']:
-    tab1, tab2,tab3,tab4 = st.tabs(["Clusters", "RFM Details","Visualization :sunglasses:","Details:clown_face:"])
+    tab1, tab2,tab3,tab4 = st.tabs([":blue[Clusters]", ":blue[RFM Details]",":blue[Visualization]",":blue[Details]"])
 
     with tab4:
         st.markdown('''
@@ -347,20 +345,20 @@ This project provides practical experience in customer segmentation using RFM an
         # st.write(df_rfm)
     with tab1:
         description = """
-### K-Means Clustering for Customer Segmentation
+ ### :blue[  K-Means Clustering for Customer Segmentation ]
 
 This part of the application implements K-means clustering to segment customers based on RFM (Recency, Frequency, Monetary) analysis.
 
-#### How It Works:
+#### :blue[ How It Works:]
 1. **Select Number of Clusters:** Use the slider to choose the number of clusters (k) for the K-means algorithm.
 2. **Initiate Clustering:** Click 'Let's GO' to start the clustering process.
 
-#### Behind the Scenes:
+#### :blue[ Behind the Scenes:]
 - The data is prepared by filtering, applying a logarithmic transformation for normalization, and scaling.
 - The KMeans algorithm is applied to this preprocessed data.
 - The results are visualized using a 3D scatter plot with Plotly, showing the clusters in terms of 'Recency', 'Frequency', and 'Monetary' values.
 
-#### Usage:
+#### :blue[ Usage:]
 This tool is essential for understanding customer behavior and grouping them into segments. It's particularly useful for marketers and data analysts for strategic planning and targeted marketing.
 
 ---
@@ -370,7 +368,7 @@ Simply adjust the slider and click the button to view different clustering scena
 
         st.markdown(description)
 
-        k = st.slider('Select the number of clusters (k)', min_value=2, max_value=6)
+        k = st.slider(':blue[ Select the number of clusters (k)]', min_value=2, max_value=6)
         submitted = st.button("Let's GO")
         
         if submitted:
