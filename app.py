@@ -8,7 +8,7 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 Scaler=StandardScaler()
 
-# st.set_page_config(page_title= "Retail Platform",page_icon='logo.png')
+# st.set_page_config(page_title= "Sociolla Stores Clustering",page_icon='logo.png')
 def get_customer_rfm(customer_id, df):
     # Calculate RFM values and cluster memberships for the customer
     # This is placeholder logic; you will need to replace it with your actual calculation logic
